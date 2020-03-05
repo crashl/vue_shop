@@ -42,8 +42,8 @@ export default {
     return {
       // 数据绑定
       loginForm: {
-        username: '用户名',
-        password: '密码'
+        username: 'admin',
+        password: '123456'
       },
       // 表单验证规则
       loginFormRules: {
@@ -53,6 +53,7 @@ export default {
             min: 3,
             max: 10,
             message: '登录名长度在 3 到 10 个字符',
+            // blur指的是失去鼠标聚焦
             trigger: 'blur'
           }
         ],
@@ -84,14 +85,12 @@ export default {
         if (!valid) {
           return
         }
-
-        // 发送请求进行登录
+        // 发送请求进行登录, 返回的是promise对象，async和await结合解构函数把data的返回对象重命名为res
         const { data: res } = await this.$http.post('login', this.loginForm)
         //   console.log(res);
         if (res.meta.status !== 200) {
           return this.$message.error('登录失败:' + res.meta.msg) // console.log("登录失败:"+res.meta.msg)
         }
-
         this.$message.success('登录成功')
         console.log(res)
         // 保存token
